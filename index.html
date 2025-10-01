@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashBack Radio 24h</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Navegação -->
   <nav>
-    <a href="index.html" data-nav class="active">Home</a>
+    <a href="index.html" data-nav>Home</a>
     <a href="noticias.html" data-nav>Notícias</a>
-    <a href="sobre.html" data-nav>Sobre</a>
+    <a href="about.html" data-nav>Sobre</a>
   </nav>
 
+  <!-- Header -->
   <header class="header">
-    <div style="display:flex;flex-direction:column;gap:6px;">
-      <h1 style="margin:0;">FlashBack Radio 24h</h1>
-      <div class="radio-name" style="color:#ff5555;font-weight:700;">A melhor música 24h online</div>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div class="live">AO VIVO
-        <span class="live-bars" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </span>
+    <h1>FlashBack Radio 24h</h1>
+    <div class="live">
+      AO VIVO
+      <div class="live-bars">
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
-      <div class="clock" id="clock">00:00:00</div>
     </div>
+    <div class="clock" id="clock"></div>
   </header>
 
-  <!-- main é onde o conteúdo das páginas será injetado -->
+  <!-- Main -->
   <main id="app-main">
-    <!-- Conteúdo inicial (home). Pode ser substituído via SPA. -->
-    <section class="home">
-      <div class="radio-container">
-        <div class="cassette">
-          <div class="wave" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
 
-          <div class="controls" aria-hidden="true">
-            <!-- botões visuais (não controlam playback, por decisão sua) -->
-            <button id="prevBtn">⏮</button>
-            <button id="playBtn">▶️</button>
-            <button id="nextBtn">⏭</button>
-          </div>
-
-          <div class="track-name" id="trackName">Carregando...</div>
+    <!-- Player -->
+    <div class="radio-container">
+      <div class="cassette">
+        <div class="wave">
+          <span></span><span></span><span></span><span></span><span></span>
         </div>
+        <audio id="player" preload="auto"></audio>
+        <div class="controls">
+          <button id="playBtn">▶️</button>
+          <button id="prevBtn">⏮️</button>
+          <button id="nextBtn">⏭️</button>
+        </div>
+        <div class="track-name" id="trackName">Carregando...</div>
+      </div>
+    </div>
+
+    <!-- Notícias exemplo -->
+    <section class="news-section">
+      <h2>Últimas Notícias</h2>
+      <div class="news-card">
+        <img src="https://via.placeholder.com/600x350?text=Notícia+1" alt="Notícia 1">
+        <p>Notícia de exemplo 1</p>
+      </div>
+      <div class="news-card">
+        <img src="https://via.placeholder.com/600x350?text=Notícia+2" alt="Notícia 2">
+        <p>Notícia de exemplo 2</p>
       </div>
     </section>
+
   </main>
 
+  <!-- Footer -->
   <footer>
-    📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
+    &copy; 2025 <span>FlashBack Radio 24h</span>
   </footer>
 
-  <!-- player PERSISTENTE: fica fora do <main> para não ser removido pela SPA -->
-  <audio id="player" preload="auto" crossorigin="anonymous"></audio>
-
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
