@@ -1,3 +1,6 @@
+/* ==========================
+   Reset básico
+========================== */
 * {
   margin: 0;
   padding: 0;
@@ -14,6 +17,9 @@ body {
   padding: 0;
 }
 
+/* ==========================
+   Navegação
+========================== */
 nav {
   background: #111;
   display: flex;
@@ -40,12 +46,14 @@ nav a:hover {
   color: red;
 }
 
+/* ==========================
+   Header e Clock
+========================== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px;
-  flex-wrap: wrap;
 }
 
 .header h1 {
@@ -98,12 +106,15 @@ nav a:hover {
   font-weight: bold;
 }
 
-/* Player centralizado */
+/* ==========================
+   Main / Cassette Player Centralizado
+========================== */
 .radio-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
+  justify-content: center; /* centraliza horizontalmente */
+  align-items: center;     /* centraliza verticalmente */
+  margin: 20px auto;
+  min-height: 400px;       /* altura mínima para centralização */
 }
 
 .cassette {
@@ -113,6 +124,7 @@ nav a:hover {
   border-radius: 8px;
   padding: 20px;
   text-align: center;
+  margin: 0 auto;          /* garante centralização horizontal */
 }
 
 .wave {
@@ -160,7 +172,9 @@ nav a:hover {
   color: #ff5555;
 }
 
-/* Notícias */
+/* ==========================
+   Notícias / Cards
+========================== */
 .news-section {
   margin: 40px auto;
   display: grid;
@@ -213,7 +227,9 @@ nav a:hover {
   color: #ddd;
 }
 
-/* About */
+/* ==========================
+   About
+========================== */
 .about {
   max-width: 900px;
   margin: 40px auto;
@@ -235,7 +251,9 @@ nav a:hover {
   color: #ddd;
 }
 
-/* Footer */
+/* ==========================
+   Footer
+========================== */
 footer {
   background: #111;
   color: #bbb;
@@ -250,25 +268,94 @@ footer span {
   color: red;
 }
 
-/* Mobile */
+/* ==========================
+   Mobile Responsive
+========================== */
 @media (max-width: 768px) {
-  nav { flex-direction: column; padding: 10px 20px; align-items: center; }
-  nav a { margin: 5px 0; font-size: 16px; }
-  .header { flex-direction: column; gap: 15px; padding: 20px; text-align: center; }
-  .clock { font-size: 24px; padding: 8px 16px; }
-  .radio-container { padding: 0 10px; }
-  .cassette { width: 100%; padding: 15px; }
-  .wave { height: 40px; }
-  .wave span { width: 3px; height: 20px; margin: 0 2px; }
-  .controls button { padding: 8px 12px; font-size: 14px; }
-  .track-name { font-size: 14px; }
+  nav {
+    flex-direction: column;
+    padding: 10px 20px;
+    align-items: center;
+  }
+  nav a {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .clock {
+    font-size: 24px;
+    padding: 8px 16px;
+  }
+
+  .radio-container {
+    padding: 0 10px;
+    min-height: 300px;
+  }
+
+  .cassette {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .wave {
+    height: 40px;
+  }
+
+  .wave span {
+    width: 3px;
+    height: 20px;
+    margin: 0 2px;
+  }
+
+  .controls button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .track-name {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
-  .header h1 { font-size: 1.5em; }
-  .live-bars { gap: 1px; }
-  .wave { height: 30px; }
-  .wave span { height: 15px; }
-  .controls button { padding: 6px 10px; font-size: 12px; }
-  .track-name { font-size: 12px; }
+  .header h1 {
+    font-size: 1.5em;
+  }
+
+  .live-bars {
+    gap: 1px;
+  }
+
+  .wave {
+    height: 30px;
+  }
+
+  .wave span {
+    height: 15px;
+  }
+
+  .controls button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .track-name {
+    font-size: 12px;
+  }
+
+  .radio-container {
+    min-height: 250px;
+  }
+
+  .cassette {
+    width: 95%;
+    padding: 10px;
+  }
 }
