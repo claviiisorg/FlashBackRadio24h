@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FlashBack Radio 24 Horas</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rádio 24 Horas</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <audio id="player" muted autoplay>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
-
+  <!-- NAV -->
   <nav>
-    <a href="index.html" data-nav class="active">Home</a>
+    <a href="index.html" data-nav>Home</a>
     <a href="noticias.html" data-nav>Notícias</a>
-    <a href="sobre.html" data-nav>Sobre</a>
+    <a href="about.html" data-nav>Sobre</a>
   </nav>
 
-  <div class="header">
-    <h1>
-      FlashBack Radio
-      <span class="live">AO VIVO
-        <span class="live-bars">
-          <span></span><span></span><span></span><span></span><span></span>
-        </span>
-      </span>
-    </h1>
-    <div class="clock" id="clock"></div>
-  </div>
+  <!-- HEADER -->
+  <header class="header">
+    <h1>🎵 Rádio 24 Horas</h1>
+    <div class="live">
+      AO VIVO
+      <div class="live-bars">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="clock" id="clock">00:00:00</div>
+  </header>
 
+  <!-- MAIN -->
   <main id="app-main">
-    <section class="home">
-      <div class="radio-container">
-        <div class="cassette">
-          <div class="wave">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="controls">
-            <button id="prevBtn">‍</button>
-            <button id="playBtn">‍</button>
-            <button id="nextBtn">‍</button>
-            <button id="nextBtn">‍</button>
-            <button id="nextBtn">‍</button>
-          </div>
-          <div class="track-name" id="trackName">Carregando...</div>
-          <audio id="player" preload="auto"></audio>
+    <div class="radio-container">
+      <div class="cassette">
+        <div class="wave">
+          <span></span><span></span><span></span><span></span><span></span>
         </div>
+        <audio id="player" controls></audio>
+        <div class="controls">
+          <button id="playBtn">Play</button>
+          <button id="prevBtn">Prev</button>
+          <button id="nextBtn">Next</button>
+        </div>
+        <div class="track-name" id="trackName">Carregando...</div>
+      </div>
+    </div>
+
+    <!-- Notícias exemplo -->
+    <section class="news-section">
+      <h2>Últimas Notícias</h2>
+      <div class="news-card">
+        <img src="https://via.placeholder.com/300x170" alt="Notícia">
+        <p>Notícia de exemplo</p>
+      </div>
+      <div class="news-card">
+        <img src="https://via.placeholder.com/300x170" alt="Notícia">
+        <p>Outra notícia</p>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
+    Rádio 24 Horas &copy; <span>2025</span>
   </footer>
 
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
