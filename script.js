@@ -2,6 +2,13 @@
    script.js - Rádio 24h
    Player persistente + SPA + Equalizador AO VIVO + Clock
    ========================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const playBtn = document.getElementById('playBtn');
+  playBtn.addEventListener('click', () => {
+    const player = document.getElementById('player');
+    player.play();
+  });
+});
 
 /* ===== DOM refs globais ===== */
 const clockEl = document.getElementById("clock");
@@ -200,3 +207,4 @@ function init() {
 }
 
 init();
+
