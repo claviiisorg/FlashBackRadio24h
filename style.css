@@ -1,205 +1,274 @@
-/* =========================
-   Rádio 24h
-   Player persistente + SPA + Equalizador AO VIVO + Clock
-========================= */
-
-/* ===== Relógio ===== */
-const clockEl = document.getElementById("clock");
-function startClock() {
-  updateClock();
-  setInterval(updateClock, 1000);
-}
-function updateClock() {
-  const now = new Date();
-  clockEl.textContent = now.toLocaleTimeString();
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ===== DOM refs ===== */
-const player = document.getElementById("player");
-let trackName = document.getElementById("trackName");
-const playBtn = document.getElementById("playBtn");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const appMain = document.getElementById("app-main");
-
-/* ===== Equalizador AO VIVO ===== */
-const liveBars = () => document.querySelectorAll(".live-bars span");
-function animateLiveBars() {
-  const bars = liveBars();
-  if (!bars || bars.length === 0) return;
-  const base = player && !player.paused ? 6 : 3;
-  bars.forEach((b) => {
-    const variance = Math.random() * 16;
-    const height = Math.round(base + variance);
-    b.style.height = height + "px";
-  });
-}
-setInterval(animateLiveBars, 250);
-
-/* ===== Playlist do GitHub ===== */
-const apiUrl = "https://api.github.com/repos/claviiisorg/radio-musicas/releases/tags/musicas";
-let playlist = [];
-let current = -1;
-
-async function loadPlaylistFromGithub() {
-  try {
-    const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error("Erro HTTP " + res.status);
-    const data = await res.json();
-    if (!data.assets || !data.assets.length) {
-      trackName && (trackName.textContent = "Nenhuma música disponível.");
-      return;
-    }
-
-    playlist = data.assets.map((a) => ({
-      url: a.browser_download_url,
-      name: a.name.replace(/\.[^/.]+$/, "").replace(/_/g, " "),
-    }));
-
-    const savedIndex = Number(localStorage.getItem("currentSong"));
-    const savedTime = Number(localStorage.getItem("currentTime")) || 0;
-
-    if (!Number.isNaN(savedIndex) && savedIndex >= 0 && savedIndex < playlist.length) {
-      current = savedIndex;
-      loadSong(current, savedTime);
-    } else {
-      playRandom();
-    }
-  } catch (err) {
-    console.error("Erro ao carregar playlist do GitHub:", err);
-    trackName && (trackName.textContent = "Erro ao carregar músicas.");
-  }
+body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0;
 }
 
-/* ===== Carregar e tocar música ===== */
-function loadSong(index, startTime = 0) {
-  if (!playlist.length || index < 0 || index >= playlist.length) return;
-  current = index;
-  const song = playlist[index];
-  player.src = song.url;
-  player.currentTime = startTime;
-  trackName && (trackName.textContent = song.name);
-  const p = player.play();
-  if (p && p.catch) p.catch(() => {});
-  localStorage.setItem("currentSong", current);
+nav {
+  background: #111;
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 40px;
+  border-bottom: 2px solid #222;
 }
 
-/* ===== Aleatório ===== */
-function playRandom() {
-  if (!playlist.length) return;
-  let next;
-  do {
-    next = Math.floor(Math.random() * playlist.length);
-  } while (next === current && playlist.length > 1);
-  loadSong(next);
+nav a {
+  color: #fff;
+  margin-right: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 2px;
 }
 
-/* ===== Eventos ===== */
-player.addEventListener("ended", playRandom);
-
-/* Salva posição atual a cada 1s */
-setInterval(() => {
-  if (!isNaN(player.currentTime)) localStorage.setItem("currentTime", player.currentTime);
-}, 1000);
-
-/* ===== Botões ===== */
-if (playBtn) playBtn.addEventListener("click", () => {
-  player.play().catch(()=>{});
-});
-if (prevBtn) prevBtn.addEventListener("click", () => playRandom());
-if (nextBtn) nextBtn.addEventListener("click", () => playRandom());
-
-/* ===== SPA navigation ===== */
-async function loadPage(url, pushHistory = true) {
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Falha ao carregar página: " + res.status);
-    const text = await res.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, "text/html");
-
-    const remoteMain = doc.querySelector("main");
-    const newMainHtml = remoteMain ? remoteMain.innerHTML : doc.body.innerHTML;
-
-    appMain.innerHTML = newMainHtml;
-    document.title = doc.title || document.title;
-    fixImages(appMain);
-    updateActiveNav(url);
-    ensureClockAndLive();
-    ensurePlayer();
-
-    if (pushHistory) history.pushState({ url }, "", url);
-  } catch (err) {
-    console.error("Erro ao carregar página via SPA:", err);
-  }
+nav a.active {
+  border-bottom: 2px solid red;
+  color: red;
 }
 
-function updateActiveNav(url) {
-  document.querySelectorAll('nav a[data-nav]').forEach((a) => {
-    const aUrl = new URL(a.href, location.origin).pathname;
-    const u = new URL(url, location.origin).pathname;
-    a.classList.toggle("active", aUrl === u);
-  });
+nav a:hover {
+  color: red;
 }
 
-document.addEventListener("click", (ev) => {
-  const a = ev.target.closest && ev.target.closest("a[data-nav]");
-  if (!a) return;
-  const href = a.getAttribute("href");
-  if (!href) return;
-  ev.preventDefault();
-  loadPage(href, true);
-});
-
-window.addEventListener("popstate", (ev) => {
-  const url = (ev.state && ev.state.url) || location.pathname;
-  loadPage(url, false);
-});
-
-/* ===== Helper ===== */
-function fixImages(container) {
-  container.querySelectorAll("img").forEach((img) => {
-    img.onerror = function () {
-      this.onerror = null;
-      this.src = "https://via.placeholder.com/600x350?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
-    };
-    if (!img.alt) img.alt = "Imagem";
-  });
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  flex-wrap: wrap;
 }
 
-function ensureClockAndLive() {
-  if (!clockEl.textContent) startClock();
+.header h1 {
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-function ensurePlayer() {
-  if (!player.paused) return;
-  if (playlist.length && current >= 0) {
-    const currentTime = Number(localStorage.getItem("currentTime")) || 0;
-    loadSong(current, currentTime);
-  }
+.header .live {
+  color: red;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
 }
 
-/* ===== Autoplay ao primeiro clique (necessário no navegador) ===== */
-document.addEventListener("click", () => {
-  if (player.paused && playlist.length && current >= 0) {
-    const currentTime = Number(localStorage.getItem("currentTime")) || 0;
-    loadSong(current, currentTime);
-    player.muted = false; // desativa mute após clique
-  }
-}, { once: true });
-
-/* ===== Inicialização ===== */
-function init() {
-  startClock();
-  fixImages(document);
-  loadPlaylistFromGithub();
-
-  const path = location.pathname.replace(/^\//, "");
-  if (path && path !== "" && path !== "index.html") {
-    loadPage(location.pathname, false);
-  }
-
-  updateActiveNav(location.pathname);
+.live-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 20px;
 }
 
-init();
+.live-bars span {
+  display: block;
+  width: 3px;
+  background: red;
+  animation: pulseLive 1s infinite ease-in-out;
+}
+
+.live-bars span:nth-child(1) { animation-delay: 0s; }
+.live-bars span:nth-child(2) { animation-delay: 0.2s; }
+.live-bars span:nth-child(3) { animation-delay: 0.4s; }
+.live-bars span:nth-child(4) { animation-delay: 0.6s; }
+.live-bars span:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes pulseLive {
+  0%, 100% { height: 5px; }
+  50% { height: 20px; }
+}
+
+.clock {
+  font-size: 32px;
+  background: red;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* Player centralizado */
+.radio-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.cassette {
+  width: 600px;
+  background: #333;
+  border: 4px solid #a33;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.wave {
+  height: 60px;
+  background: #111;
+  margin-bottom: 20px;
+  border: 2px solid #a33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wave span {
+  display: inline-block;
+  width: 4px;
+  height: 30px;
+  background: red;
+  margin: 0 3px;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { height: 10px; }
+  50% { height: 40px; }
+}
+
+.controls button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  border: none;
+  background: #900;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.controls button:hover {
+  background: red;
+}
+
+.track-name {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #ff5555;
+}
+
+/* Notícias */
+.news-section {
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  max-width: 900px;
+}
+
+.news-section h2 {
+  grid-column: 1 / -1;
+  border-bottom: 2px solid red;
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.news-card {
+  background: linear-gradient(180deg,#0b0b0b,#111);
+  padding: 14px;
+  border: 1px solid #333;
+  border-radius: 10px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  border-color: red;
+}
+
+.news-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  object-fit: cover;
+  max-height: 170px;
+}
+
+.news-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #ddd;
+}
+
+/* About */
+.about {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  border-bottom: 2px solid red;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.about p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+/* Footer */
+footer {
+  background: #111;
+  color: #bbb;
+  text-align: center;
+  padding: 15px;
+  border-top: 2px solid #222;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+footer span {
+  color: red;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav { flex-direction: column; padding: 10px 20px; align-items: center; }
+  nav a { margin: 5px 0; font-size: 16px; }
+  .header { flex-direction: column; gap: 15px; padding: 20px; text-align: center; }
+  .clock { font-size: 24px; padding: 8px 16px; }
+  .radio-container { padding: 0 10px; }
+  .cassette { width: 100%; padding: 15px; }
+  .wave { height: 40px; }
+  .wave span { width: 3px; height: 20px; margin: 0 2px; }
+  .controls button { padding: 8px 12px; font-size: 14px; }
+  .track-name { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 1.5em; }
+  .live-bars { gap: 1px; }
+  .wave { height: 30px; }
+  .wave span { height: 15px; }
+  .controls button { padding: 6px 10px; font-size: 12px; }
+  .track-name { font-size: 12px; }
+}
