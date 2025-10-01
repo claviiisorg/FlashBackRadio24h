@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlashBack Radio 24 Horas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <a href="index.html" data-nav class="active">Home</a>
+    <a href="noticias.html" data-nav>Notícias</a>
+    <a href="sobre.html" data-nav>Sobre</a>
+  </nav>
+
+  <div class="header">
+    <h1>
+      FlashBack Radio
+      <span class="live">AO VIVO
+        <span class="live-bars">
+          <span></span><span></span><span></span><span></span><span></span>
+        </span>
+      </span>
+    </h1>
+    <div class="clock" id="clock"></div>
+  </div>
+
+  <main id="app-main">
+    <section class="home">
+      <div class="radio-container">
+        <div class="cassette">
+          <div class="wave">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="controls">
+            <button id="prevBtn">‍</button>
+            <button id="playBtn">‍</button>
+            <button id="nextBtn">‍</button>
+            <button id="nextBtn">‍</button>
+            <button id="nextBtn">‍</button>
+          </div>
+          <div class="track-name" id="trackName">Carregando...</div>
+          <audio id="player" preload="auto"></audio>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
