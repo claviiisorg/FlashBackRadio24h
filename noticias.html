@@ -1,61 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notícias - Rádio 24 Horas</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notícias - FlashBack Radio</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Sistema orgânico de notícias */
+.news-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 40px auto;
+}
+.news-card {
+  background: linear-gradient(180deg, #0b0b0b, #111);
+  border-radius: 15px;
+  border: 1px solid #333;
+  overflow: hidden;
+  flex: 1 1 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.news-card:hover {
+  transform: translateY(-10px) rotate(-1deg);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+  border-color: red;
+}
+.news-card img {
+  width: 100%;
+  border-bottom: 2px solid #900;
+  object-fit: cover;
+  max-height: 180px;
+}
+.news-card p {
+  padding: 10px;
+  color: #ddd;
+  font-size: 14px;
+}
+.news-card h3 {
+  margin: 10px 0 5px;
+  color: #ff5555;
+}
+</style>
 </head>
 <body>
-  <nav>
-    <a href="index.html" data-nav>Home</a>
-    <a href="noticias.html" data-nav class="active">Notícias</a>
-    <a href="sobre.html" data-nav>Sobre</a>
-  </nav>
+<nav>
+<a href="index.html" data-nav>Home</a>
+<a href="noticias.html" data-nav class="active">Notícias</a>
+<a href="sobre.html" data-nav>Sobre</a>
+</nav>
 
-  <div class="header">
-    <h1>Notícias Históricas <span class="live">1970 - 1990</span></h1>
-    <div class="clock" id="clock">00:00:00</div>
-  </div>
+<div class="header">
+<h1>Notícias Históricas <span class="live">1970 - 1990</span></h1>
+<div class="clock" id="clock"></div>
+</div>
 
-  <main id="app-main">
-    <section class="news-section">
-      <h2>Carros Icônicos</h2>
-      <div class="news-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/1965_Ford_Mustang_2D_Hardtop_Front.jpg" alt="Ford Mustang 1965">
-        <p>🚗 O Ford Mustang de 1965 se tornou um símbolo — performance e estilo que ecoaram pelos anos 70.</p>
-      </div>
-      <div class="news-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/1989_Ferrari_F40_SCD_24.jpg" alt="Ferrari F40">
-        <p>🏎 A Ferrari F40 (lançada em 1987) representa a evolução dos supercarros dos anos 80.</p>
-      </div>
+<main id="app-main">
+<section class="news-section">
+<!-- Notícias já existentes -->
+<div class="news-card">
+<h3>Ford Mustang 1965</h3>
+<img src="https://www.motortrend.com/uploads/f/71579943.jpg" alt="Ford Mustang 1965">
+<p>O Ford Mustang se consolidou como símbolo de liberdade e estilo nos anos 70.</p>
+</div>
+<div class="news-card">
+<h3>Ferrari F40</h3>
+<img src="https://hips.hearstapps.com/roadandtrack/assets/15/17/1429712553-img046.jpg" alt="Ferrari F40">
+<p>A Ferrari F40 (1987) marcou a era dos supercarros, ícone dos anos 80.</p>
+</div>
+<div class="news-card">
+<h3>ABBA</h3>
+<img src="https://cdn-images.dzcdn.net/images/cover/065db5953bf46f833dc6b3ca5dba2a51/1900x1900-000000-81-0-0.jpg" alt="ABBA">
+<p>ABBA definiu o som dos anos 70 com hits e visuais que marcaram gerações.</p>
+</div>
+<div class="news-card">
+<h3>Queen</h3>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgdg-Oe4EQuih59j9VIPDV_aDQvqHrtINoVw&s" alt="Queen">
+<p>Queen dominou palcos mundiais com apresentações lendárias nos anos 80.</p>
+</div>
 
-      <h2>Bandas e Música</h2>
-      <div class="news-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgdg-Oe4EQuih59j9VIPDV_aDQvqHrtINoVw&s" alt="Queen">
-        <p>🎸 Queen dominou palcos internacionais com shows que entraram para a história nos anos 80.</p>
-      </div>
-      <div class="news-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/ABBA_-_Swedish_Grammy_1976.jpg" alt="ABBA">
-        <p>🎤 ABBA marcou os anos 70 com melodias e visuais inesquecíveis do pop/disco.</p>
-      </div>
+<!-- Novas notícias globais -->
+<div class="news-card">
+<h3>Live Aid 1985</h3>
+<img src="https://queennet.com.br/wp-content/uploads/2022/07/WhatsApp-Image-2022-07-13-at-17.23.48.jpeg"Live Aid 1985">
+<p>O concerto beneficente Live Aid reuniu músicos de todo o mundo para combater a fome na África.</p>
+</div>
+<div class="news-card">
+<h3>Queda do Muro de Berlim</h3>
+<img src="https://medias.revistaoeste.com/wp-content/uploads/2021/11/destacada-shutterstock-east-and-west-german-people-celebrate-the-end-of-cold-war-on-top-of-the-berlin-wall-10-november-1989-photograph.jpeg" alt="Queda do Muro de Berlim">
+<p>Em 1989, o Muro de Berlim caiu, simbolizando o fim da Guerra Fria e reunificação da Alemanha.</p>
+</div>
+<div class="news-card">
+<h3>Apple Macintosh 1984</h3>
+<img src="https://heise.cloudimg.io/width/610/q85.png-lossy-85.webp-lossy-85.foil1/_www-heise-de_/imgs/18/2/5/8/5/2/8/0/1984_apple_macintosh-a16f33d5bc8fa186.jpeg"Apple Macintosh 1984">
+<p>O lançamento do Macintosh revolucionou a computação pessoal com interface gráfica e mouse.</p>
+</div>
+<div class="news-card">
+<h3>Exploração Espacial - Challenger 1986</h3>
+<img src="https://i.redd.it/space-shuttle-challenger-ov-099-breaks-up-73-seconds-after-v0-bzznfzqgceie1.jpg?width=400&format=pjpg&auto=webp&s=695c1e0e67ef9292237877a708817b4083ef6f7d" alt="Challenger 1986">
+<p>O desastre do ônibus espacial Challenger marcou profundamente a história da exploração espacial.</p>
+</div>
+</section>
+</main>
 
-      <h2>Inovações e Cultura</h2>
-      <div class="news-card">
-        <img src="https://uk.static.webuy.com/product_images/Gaming/NES%20Consoles/SNINNES001_l.jpg" alt="Nintendo NES">
-        <p>🕹 O Nintendo Entertainment System revolucionou os videogames nos anos 80.</p>
-      </div>
-      <div class="news-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/OD_Compact_disc.svg" alt="CD">
-        <p>💿 O CD transformou a indústria musical no fim dos anos 80, mudando consumo e distribuição.</p>
-      </div>
-    </section>
-  </main>
+<footer>
+📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
+</footer>
 
-  <footer>
-    📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
-  </footer>
-
-  <script src="script.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>

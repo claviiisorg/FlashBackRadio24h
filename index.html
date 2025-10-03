@@ -28,16 +28,17 @@
   <main id="app-main">
     <section class="home">
       <div class="radio-container">
-        <div class="cassette">
+        <div class="cassette fade-in">
           <div class="wave">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
           <div class="controls">
-            <button id="prevBtn">‍</button>
-            <button id="playBtn">‍</button>
-            <button id="nextBtn">‍</button>
-            <button id="nextBtn">‍</button>
-            <button id="nextBtn">‍</button>
+            <button id="prevBtn">ㅤㅤㅤㅤ</button>
+            <button id="playBtn">ㅤㅤㅤㅤ</button>
+            <button id="nextBtn">ㅤㅤㅤㅤ</button>
+            <button id="prevBtn">ㅤㅤㅤㅤ</button>
+            <button id="playBtn">ㅤㅤㅤㅤ</button>
+            <button id="nextBtn">ㅤㅤㅤㅤ</button>
           </div>
           <div class="track-name" id="trackName">Carregando...</div>
           <audio id="player" preload="auto"></audio>
@@ -49,6 +50,14 @@
   <footer>
     📢 Esta rádio é um projeto cultural e experimental. <span>Respeitamos os direitos autorais</span>.
   </footer>
+
+  <!-- Overlay para desbloquear autoplay -->
+  <div class="audio-overlay hidden" id="audio-overlay">
+    <div class="overlay-inner">
+      <p>🔊 Clique para começar a ouvir a FlashBack Radio</p>
+      <button id="overlayBtn">Tocar Agora</button>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>
